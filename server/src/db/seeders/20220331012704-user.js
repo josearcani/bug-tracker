@@ -1,4 +1,5 @@
 'use strict';
+// eslint-disable-next-line no-undef
 const { v4: uuidv4 } = require('uuid');
 
 module.exports = {
@@ -16,7 +17,7 @@ module.exports = {
       email: 'silvia@test.com',
       password: 'secret',
       created_at: new Date(),
-      updated_at: new Date(),
+      updated_at: null,
     }], {});
   },
 

@@ -12,6 +12,7 @@ sequelize
 sequelize-cli
 
 ```
+npx sequelize-cli db:seed:undo // drops all tables
 npx sequelize-cli migration:generate --name User // creates a migration file
 npx sequelize-cli model:generate --name Client --attributes name:string // creates model & migration
 ```

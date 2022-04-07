@@ -4,7 +4,10 @@ import { Model, UUIDV4 } from 'sequelize';
 
 interface UserAttributes {
   id: string;
-  name: string;
+  username: string;
+  fName: string;
+  lName: string;
+  profilePic: string;
   email: string;
   password: string;
 }
@@ -12,7 +15,10 @@ interface UserAttributes {
 module.exports = (sequelize:any, DataTypes:any) => {
   class User extends Model<UserAttributes> implements UserAttributes {
     id!:string;
-    name!:string; // not nullable and also string
+    username!: string; // not nullable and also string
+    fName!: string;
+    lName!: string;
+    profilePic!: string;
     email!: string;
     password!: string;
     static associate(models:any) {
@@ -29,9 +35,24 @@ module.exports = (sequelize:any, DataTypes:any) => {
       allowNull: false,
       primaryKey: true,
     },
-    name: {
+    username: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    fName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      field: 'f_name',
+    },
+    lName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      field: 'l_name',
+    },
+    profilePic: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      field: 'profile_pic',
     },
     email: {
       type: DataTypes.STRING,

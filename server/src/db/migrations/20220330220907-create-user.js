@@ -1,5 +1,6 @@
 'use strict';
 
+// eslint-disable-next-line no-undef
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('users', {
@@ -9,7 +10,15 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
       },
-      name: {
+      username: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
+      },
+      f_name: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
+      },
+      l_name: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
       },
@@ -21,6 +30,10 @@ module.exports = {
       password: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
+      },
+      profile_pic:{
+        type: Sequelize.DataTypes.STRING,
+        allowNull: true,
       },
       createdAt: {
         type: Sequelize.DataTypes.DATE,

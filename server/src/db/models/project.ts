@@ -1,11 +1,12 @@
 'use strict';
 
-import { Model } from 'sequelize';
+import { Model, UUIDV4 } from 'sequelize';
 
 interface ProjectAttributes {
   id: number;
   title: string;
   status: string;
+  createdBy: string;
 }
 
 module.exports = (sequelize:any, DataTypes:any) => {
@@ -13,6 +14,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
     id!: number;
     title!: string;
     status!: string;
+    createdBy!: string;
     static associate(models:any) {
       // define association here
       Project.belongsToMany(models.User, {
@@ -22,10 +24,10 @@ module.exports = (sequelize:any, DataTypes:any) => {
   }
   Project.init({
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
+      defaultValue: UUIDV4,
       allowNull: false,
       primaryKey: true,
-      autoIncrement: true
     },
     title: {
       type: DataTypes.STRING,
@@ -34,6 +36,15 @@ module.exports = (sequelize:any, DataTypes:any) => {
     status: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    createdBy: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      field:'created_by',
+      references: {
+        model: 'users',
+        key: 'id'
+      }
     }
   }, {
     sequelize,

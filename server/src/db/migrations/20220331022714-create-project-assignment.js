@@ -1,38 +1,32 @@
 'use strict';
 
+// eslint-disable-next-line no-undef
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('project_assignment', {
-      ProjectId: {
+      id: {
         type: Sequelize.DataTypes.INTEGER,
-        allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
+      },
+      projectId: {
+        type: Sequelize.DataTypes.UUID,
+        allowNull: false,
         field: 'project_id',
         references: {
           model: 'projects',
           key: 'id'
         }
       },
-      UserId: {
+      userId: {
         type: Sequelize.DataTypes.UUID,
         allowNull: false,
-        primaryKey: true,
         field: 'user_id',
         references: {
           model: 'users',
           key: 'id'
         }
       },
-      createdAt: {
-        type: Sequelize.DataTypes.DATE,
-        allowNull: false,
-        field: 'created_at',
-      },
-      updatedAt: {
-        type: Sequelize.DataTypes.DATE,
-        allowNull: false,
-        field: 'updated_at',
-      }
     });
   },
   async down(queryInterface, Sequelize) {

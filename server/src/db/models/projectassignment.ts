@@ -2,33 +2,39 @@
 import { Model } from 'sequelize';
 
 interface ProjectAssignmentAttributes {
-  ProjectId: number;
-  UserId: string;
+  id: number;
+  projectId: string;
+  userId: string;
 }
 
 module.exports = (sequelize:any, DataTypes:any) => {
   class ProjectAssignment extends Model<ProjectAssignmentAttributes> implements ProjectAssignmentAttributes {
-    ProjectId!: number;
-    UserId!: string;
+    id!: number;
+    projectId!: string;
+    userId!: string;
     static associate(models:any) {
       // define association here
     }
   }
   ProjectAssignment.init({
-    ProjectId: {
+    id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
       primaryKey: true,
+      allowNull: false,
+      autoIncrement: true,
+    },
+    projectId: {
+      type: DataTypes.UUID,
+      allowNull: false,
       field: 'project_id',
       references: {
         model: 'projects',
         key: 'id'
       }
     },
-    UserId: {
+    userId: {
       type: DataTypes.UUID,
       allowNull: false,
-      primaryKey: true,
       field: 'user_id',
       references: {
         model: 'users',
@@ -39,9 +45,9 @@ module.exports = (sequelize:any, DataTypes:any) => {
     sequelize,
     tableName: 'project_assignment',
     modelName: 'ProjectAssignment',
-    timestamps: true,
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
+    timestamps: false,
+    // createdAt: 'created_at',
+    // updatedAt: 'updated_at',
   });
   return ProjectAssignment;
 };

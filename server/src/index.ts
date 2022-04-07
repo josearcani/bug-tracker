@@ -4,7 +4,7 @@ const port = process.env.PORT || 3000;
 
 import db from './db/models';
 
-db.sequelize.sync().then(() => {
+db.sequelize.authenticate().then(() => {
   app.listen(port, () => {
     console.log(`App listening on port ${port}`);
   })

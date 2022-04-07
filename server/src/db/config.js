@@ -1,4 +1,4 @@
-// require('dotenv').config();
+require('dotenv').config();
 
 // eslint-disable-next-line no-undef
 module.exports = {

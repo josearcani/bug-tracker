@@ -1,5 +1,5 @@
 import express, { Application } from 'express';
-import { authRouter, usersRouter } from './routes';
+import { authRouter, projectsRouter, usersRouter } from './routes';
 import db from './db/models';
 
 class Server {
@@ -8,6 +8,7 @@ class Server {
   private path: {
     auth: string;
     users: string;
+    projects: string;
   }
   
   constructor () {
@@ -16,6 +17,7 @@ class Server {
     this.path = {
       auth: '/api/auth',
       users: '/api/users',
+      projects: '/api/projects',
     }
 
     this.connectDB();
@@ -39,6 +41,7 @@ class Server {
   routes () {
     this.app.use(this.path.auth, authRouter);
     this.app.use(this.path.users, usersRouter);
+    this.app.use(this.path.projects, projectsRouter);
   }
 
   listen () {

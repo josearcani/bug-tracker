@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
-import db from '../db/models';
 import { generateJWT } from '../helpers/generate-jwt';
+import db from '../db/models';
 
 export const signup = async (req: Request, res: Response) => {
   const { username, password, lName, fName, profilePic, email } = req.body;
@@ -97,3 +97,18 @@ export const google = async (req: Request, res: Response) => {
     });
   }
 }
+
+export const renewJwt = async (req: Request, res: Response) => {
+  try {
+    const token = await generateJWT(req.user);
+    res.json({
+      token,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: 'Contact the admin'
+    });
+  }
+}
+

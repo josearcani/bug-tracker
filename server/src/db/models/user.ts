@@ -38,6 +38,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
     username: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     fName: {
       type: DataTypes.STRING,

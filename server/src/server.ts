@@ -1,12 +1,13 @@
 import express, { Application } from 'express';
-import { authRouter } from './routes';
+import { authRouter, usersRouter } from './routes';
 import db from './db/models';
 
 class Server {
   private app: Application;
   private port: string;
   private path: {
-    auth:string;
+    auth: string;
+    users: string;
   }
   
   constructor () {
@@ -14,6 +15,7 @@ class Server {
     this.port = process.env.PORT || '8000';
     this.path = {
       auth: '/api/auth',
+      users: '/api/users',
     }
 
     this.connectDB();
@@ -36,6 +38,7 @@ class Server {
 
   routes () {
     this.app.use(this.path.auth, authRouter);
+    this.app.use(this.path.users, usersRouter);
   }
 
   listen () {

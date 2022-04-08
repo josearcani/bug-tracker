@@ -4,9 +4,8 @@ import db from '../db/models';
 
 export const getProjects = async (req: Request, res: Response) => {
   try {
-    res.json({
-      message: 'get all'
-    })
+    const projects = await db.Project.findAll();
+    res.json({ projects })
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -16,22 +15,45 @@ export const getProjects = async (req: Request, res: Response) => {
 }
 
 export const getProject = async (req: Request, res: Response) => {
+  const { projectId } = req.params;
   try {
+    const project = await db.Project.findOne({
+      where: {
+        id: projectId
+      },
+    });
     res.json({
-      message: 'get one'
+      message: 'get one',
+      project,
     })
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      message: 'Contact the admin'
+      message: 'Contact the admin adfasdf'
     });
   }
 }
 
 export const postProject = async (req: Request, res: Response) => {
+  const { title } = req.body;
+  const memberIds = req.body.members
+    ? ([req.user.id, ...req.body.members] as string[])
+    : [req.user.id];
   try {
+    const newProject = await db.Project.build({ title, status: 'change this!!', createdBy: req.user.id });
+    await newProject.save();
+
+    // bulk insert if more members
+    const membersArray = memberIds.map((memberId) => ({
+      userId: memberId,
+      projectId: newProject.id,
+    }));
+    const member = await db.ProjectAssignment.bulkCreate(membersArray);
+
     res.json({
-      message: 'post'
+      message: 'post',
+      newProject,
+      member
     })
   } catch (error) {
     console.log(error);

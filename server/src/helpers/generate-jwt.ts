@@ -1,12 +1,11 @@
 import jwt, { SignOptions } from 'jsonwebtoken';
+import { secretTokenKey } from '../utils/config';
 
 interface JWTPayload {
   id: string;
   username: string;
   email: string;
 }
-
-const secretTokenKey = process.env.SECRET_TOKEN_KEY as string;
 
 export const generateJWT = ({username, id, email}: JWTPayload) => {
     const payload = { email, username, id };

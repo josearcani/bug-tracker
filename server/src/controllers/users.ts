@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
+import { Op } from 'sequelize';
 import db from '../db/models';
 
 export const getUsers = async (req: Request, res: Response) => {
   try {
     const users = await db.User.findAll({
-      // where: { id: }, not bring my own profile 
+      where: { id: { [Op.not]: req.user.id } }, // findAll except myself
       attributes: { exclude: ['password']} // everything except 
       // attributes: ['firstName', 'lastName', 'email'] // name all attributes  you want
     });

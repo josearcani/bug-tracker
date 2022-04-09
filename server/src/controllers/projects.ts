@@ -4,7 +4,12 @@ import db from '../db/models';
 
 export const getProjects = async (req: Request, res: Response) => {
   try {
-    const projects = await db.Project.findAll();
+    const projects = await db.Project.findAll({
+      include: {
+        model: db.User,
+        attributes: ['id', 'username', 'fName', 'lName']
+      }
+    });
     res.json({ projects })
   } catch (error) {
     console.log(error);
@@ -21,6 +26,10 @@ export const getProject = async (req: Request, res: Response) => {
       where: {
         id: projectId
       },
+      include: {
+        model: db.User,
+        attributes: ['id', 'username', 'fName', 'lName']
+      }
     });
     res.json({
       message: 'get one',
@@ -41,13 +50,15 @@ export const postProject = async (req: Request, res: Response) => {
     : [req.user.id];
   try {
     const newProject = await db.Project.build({ title, status: 'change this!!', createdBy: req.user.id });
-    await newProject.save();
-
+    
     // bulk insert if more members
     const membersArray = memberIds.map((memberId) => ({
-      userId: memberId,
-      projectId: newProject.id,
+      UserId: memberId,
+      ProjectId: newProject.id,
+      JoinedAt: new Date(),
     }));
+
+    await newProject.save();
     const member = await db.ProjectAssignment.bulkCreate(membersArray);
 
     res.json({

@@ -22,79 +22,70 @@ module.exports = {
         values: ['low', 'medium', 'high'],
         defaultValue: 'low',
       },
-      isResolved: {
+      is_resolved: {
         type: Sequelize.DataTypes.BOOLEAN,
         allowNull: false,
-        field: 'is_resolved',
         defaultValue: false,
       },
-      closedAt: {
+      closed_at: {
         type: Sequelize.DataTypes.DATE,
         allowNull: true,
-        field: 'closed_at',
         defaultValue: null,
       },
-      reopenedBy: {
+      reopened_by: {
         type: Sequelize.DataTypes.UUID,
         allowNull: true,
-        field: 'reopened_by',
         references: {
           model: 'users',
           key: 'id'
         }
       },
-      reopenedAt: {
+      reopened_at: {
         type: Sequelize.DataTypes.DATE,
         allowNull: true,
-        field: 'reopened_at',
         defaultValue: null,
       },
-      projectId: {
+      project_id: {
         type: Sequelize.DataTypes.UUID,
         allowNull: false,
-        field: 'project_id',
         references: {
           model: 'projects',
           key: 'id'
         }
       },
-      closedBy: {
+      closed_by: {
         type: Sequelize.DataTypes.UUID,
         allowNull: true,
-        field: 'closed_by',
         references: {
           model: 'users',
           key: 'id'
         }
       },
-      createdBy: {
+      created_by: {
         type: Sequelize.DataTypes.UUID,
         allowNull: false,
-        field: 'created_by',
         references: {
           model: 'users',
           key: 'id'
         }
       },
-      updatedBy: {
+      updated_by: {
         type: Sequelize.DataTypes.UUID,
         allowNull: true,
-        field: 'updated_by',
         references: {
           model: 'users',
           key: 'id'
         }
       },
-      createdAt: {
+      created_at: {
         type: Sequelize.DataTypes.DATE,
         allowNull: false,
         defaultValue: Sequelize.NOW,
         field: 'created_at',
       },
-      updatedAt: {
+      updated_at: {
         type: Sequelize.DataTypes.DATE,
         allowNull: true,
-        field: 'updated_at',
       }
     });
   },

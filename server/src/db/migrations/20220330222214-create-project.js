@@ -18,24 +18,21 @@ module.exports = {
         type: Sequelize.DataTypes.STRING,
         allowNull: false
       },
-      createdBy: {
+      created_by: {
         type: Sequelize.DataTypes.UUID,
         allowNull: false,
-        field: 'created_by',
         references: {
           model: 'users',
           key: 'id'
         }
       },
-      createdAt: {
+      created_at: {
         type: Sequelize.DataTypes.DATE,
         allowNull: false,
-        field: 'created_at',
       },
-      updatedAt: {
+      updated_at: {
         type: Sequelize.DataTypes.DATE,
         allowNull: false,
-        field: 'updated_at',
       }
     });
   },

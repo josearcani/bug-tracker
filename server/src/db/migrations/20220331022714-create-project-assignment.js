@@ -4,29 +4,28 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('project_assignment', {
-      id: {
-        type: Sequelize.DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-      },
-      projectId: {
+      project_id: {
         type: Sequelize.DataTypes.UUID,
         allowNull: false,
-        field: 'project_id',
+        primaryKey: true,
         references: {
           model: 'projects',
           key: 'id'
         }
       },
-      userId: {
+      user_id: {
         type: Sequelize.DataTypes.UUID,
         allowNull: false,
-        field: 'user_id',
+        primaryKey: true,
         references: {
           model: 'users',
           key: 'id'
         }
       },
+      joined_at: {
+        type: Sequelize.DataTypes.DATE,
+        allowNull: false,
+      }
     });
   },
   async down(queryInterface, Sequelize) {

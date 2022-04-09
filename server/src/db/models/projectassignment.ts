@@ -1,30 +1,25 @@
 'use strict';
-import { Model } from 'sequelize';
+import { Model, Sequelize } from 'sequelize';
 
 interface ProjectAssignmentAttributes {
-  id: number;
-  projectId: string;
-  userId: string;
+  ProjectId: string;
+  UserId: string;
+  JoinedAt: string
 }
 
 module.exports = (sequelize:any, DataTypes:any) => {
   class ProjectAssignment extends Model<ProjectAssignmentAttributes> implements ProjectAssignmentAttributes {
-    id!: number;
-    projectId!: string;
-    userId!: string;
+    ProjectId!: string;
+    UserId!: string;
+    JoinedAt!: string;
     static associate(models:any) {
       // define association here
     }
   }
   ProjectAssignment.init({
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      allowNull: false,
-      autoIncrement: true,
-    },
-    projectId: {
+    ProjectId: {
       type: DataTypes.UUID,
+      primaryKey: true,
       allowNull: false,
       field: 'project_id',
       references: {
@@ -32,22 +27,26 @@ module.exports = (sequelize:any, DataTypes:any) => {
         key: 'id'
       }
     },
-    userId: {
+    UserId: {
       type: DataTypes.UUID,
+      primaryKey: true,
       allowNull: false,
       field: 'user_id',
       references: {
         model: 'users',
         key: 'id'
       }
+    },
+    JoinedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      field:'joined_at',
     }
   }, {
     sequelize,
     tableName: 'project_assignment',
     modelName: 'ProjectAssignment',
     timestamps: false,
-    // createdAt: 'created_at',
-    // updatedAt: 'updated_at',
   });
   return ProjectAssignment;
 };

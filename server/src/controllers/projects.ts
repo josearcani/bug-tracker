@@ -75,9 +75,26 @@ export const postProject = async (req: Request, res: Response) => {
 }
 
 export const putProject = async (req: Request, res: Response) => {
+  const { title } = req.body;
+  const { projectId } = req.params;
   try {
+    const targetProject = await db.Project.findByPk(projectId);
+    if (!targetProject) {
+      return res.status(404).json({
+        message: 'Not found'
+      })
+    }
+    // only the creator can edit
+    if (targetProject.createdBy !== req.user.id) {
+      return res.status(401).json({
+        message: 'Access denied'
+      })
+    }
+    targetProject.title = title;
+    await targetProject.save();
     res.json({
-      message: 'put'
+      message: 'put updated',
+      targetProject
     })
   } catch (error) {
     console.log(error);
@@ -88,9 +105,25 @@ export const putProject = async (req: Request, res: Response) => {
 }
 
 export const deleteProject = async (req: Request, res: Response) => {
+  const { projectId } = req.params;
   try {
+    const targetProject = await db.Project.findByPk(projectId);
+    if (!targetProject) {
+      return res.status(404).json({
+        message: 'Not found'
+      })
+    }
+    if (targetProject.createdBy !== req.user.id) {
+      return res.status(401).json({
+        message: 'Delete denied'
+      })
+    }
+
+    await db.ProjectAssignment.destroy({ where: { ProjectId: projectId } });
+    await targetProject.destroy();
+    // await usuario.update({ estado: false });
     res.json({
-      message: 'delete'
+      message: 'deleted'
     })
   } catch (error) {
     console.log(error);

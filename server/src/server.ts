@@ -1,5 +1,5 @@
 import express, { Application } from 'express';
-import { authRouter, membersRouter, projectsRouter, usersRouter } from './routes';
+import { authRouter, bugsRouter, membersRouter, projectsRouter, usersRouter } from './routes';
 import db from './db/models';
 
 class Server {
@@ -10,6 +10,7 @@ class Server {
     users: string;
     projects: string;
     members: string;
+    bugs: string;
   }
   
   constructor () {
@@ -20,6 +21,7 @@ class Server {
       users: '/api/users',
       projects: '/api/projects',
       members: '/api/projects',
+      bugs: '/api/projects',
     }
 
     this.connectDB();
@@ -45,6 +47,7 @@ class Server {
     this.app.use(this.path.users, usersRouter);
     this.app.use(this.path.projects, projectsRouter);
     this.app.use(this.path.members, membersRouter);
+    this.app.use(this.path.bugs, bugsRouter);
   }
 
   listen () {

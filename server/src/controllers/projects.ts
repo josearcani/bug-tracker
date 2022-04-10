@@ -5,10 +5,15 @@ import db from '../db/models';
 export const getProjects = async (req: Request, res: Response) => {
   try {
     const projects = await db.Project.findAll({
-      include: {
-        model: db.User,
-        attributes: ['id', 'username', 'fName', 'lName']
-      }
+      include: [
+        {
+          model: db.User,
+          attributes: ['id', 'username', 'fName', 'lName']
+        },
+        {
+          model: db.Bugs,
+        },
+      ]
     });
     res.json({ projects })
   } catch (error) {

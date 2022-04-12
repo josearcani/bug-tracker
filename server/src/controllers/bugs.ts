@@ -141,6 +141,8 @@ export const deleteBug = async (req: Request  , res: Response) => {
     }
 
     // await Note.delete({ bugId });
+    await db.Note.destroy({ where: { bugId } });
+
     await targetBug.destroy();
 
     res.json({

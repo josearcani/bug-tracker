@@ -155,9 +155,34 @@ export const deleteBug = async (req: Request  , res: Response) => {
 }
 
 export const closeBug = async (req: Request, res: Response) => {
+  const { projectId, bugId } = req.params;
   try {
+    const targetProject = await db.Project.findByPk(projectId);
+    
+    if (!targetProject) {
+      return res.status(404).json({ message: 'Invalid project ID' });
+    }
+    
+    const targetBug = await db.Bugs.findByPk(bugId);
+
+    if (!targetBug) {
+      return res.status(404).json({ message: 'Invalid bug ID' });
+    }
+
+    if (targetBug.isResolved === true) {
+      return res.status(404).json({ message: 'Bug is already marked as closed' });
+    }
+
+    targetBug.isResolved = true;
+    targetBug.closedBy = req.user.id;
+    targetBug.closedAt = new Date();
+    targetBug.reopenedBy = null;
+    targetBug.reopenedAt = null;
+    await targetBug.save();
+
     res.json({
-      message: 'closeBug',
+      message: 'Bug marked as closed',
+      targetBug
     })
   } catch (error) {
     console.log(error);
@@ -168,9 +193,35 @@ export const closeBug = async (req: Request, res: Response) => {
 }
 
 export const reopenBug = async (req: Request, res: Response) => {
+  const { projectId, bugId } = req.params;
+
   try {
+    const targetProject = await db.Project.findByPk(projectId);
+    
+    if (!targetProject) {
+      return res.status(404).json({ message: 'Invalid project ID' });
+    }
+    
+    const targetBug = await db.Bugs.findByPk(bugId);
+
+    if (!targetBug) {
+      return res.status(404).json({ message: 'Invalid bug ID' });
+    }
+
+    if (targetBug.isResolved === false) {
+      return res.status(404).json({ message: 'Bug is already marked as opened' });
+    }
+
+    targetBug.isResolved = false;
+    targetBug.reopenedBy = req.user.id;
+    targetBug.reopenedAt = new Date();
+    targetBug.closedBy = null;
+    targetBug.closedAt = null;
+    await targetBug.save();
+
     res.json({
       message: 'reopenBug',
+      targetBug
     })
   } catch (error) {
     console.log(error);

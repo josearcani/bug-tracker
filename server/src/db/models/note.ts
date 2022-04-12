@@ -3,7 +3,7 @@
 import { Model, UUIDV4 } from 'sequelize';
 
 interface NoteAttributes {
-  id: string;
+  id: number;
   content: string;
   authorId: string;
   bugId: string;
@@ -11,7 +11,7 @@ interface NoteAttributes {
 
 module.exports = (sequelize: any, DataTypes: any) => {
   class Note extends Model<NoteAttributes> implements NoteAttributes {
-    id!: string;
+    id!: number;
     content!: string;
     authorId!: string;
     bugId!: string;
@@ -21,8 +21,8 @@ module.exports = (sequelize: any, DataTypes: any) => {
   }
   Note.init({
     id: {
-      type: DataTypes.UUID,
-      defaultValue: UUIDV4,
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
       allowNull: false,
       primaryKey: true,
     },
@@ -33,6 +33,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     authorId:{
       type: DataTypes.UUID,
       allowNull: false,
+      field:'author_id',
       references: {
         model: 'users',
         key: 'id'
@@ -41,6 +42,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     bugId: {
       type: DataTypes.UUID,
       allowNull: false,
+      field:'bug_id',
       references: {
         model: 'bugs',
         key: 'id'

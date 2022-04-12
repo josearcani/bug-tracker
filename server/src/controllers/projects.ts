@@ -10,9 +10,9 @@ export const getProjects = async (req: Request, res: Response) => {
           model: db.User,
           attributes: ['id', 'username', 'fName', 'lName']
         },
-        {
-          model: db.Bugs,
-        },
+        // {
+        //   model: db.Bugs,
+        // },
       ]
     });
     res.json({ projects })

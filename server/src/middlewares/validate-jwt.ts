@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import db from '../db/models';
 import { secretTokenKey } from '../utils/config';
 
 interface TokenInterface {
@@ -16,16 +17,21 @@ export const validateJWT = async (req: Request , res: Response, next: NextFuncti
     });
   }
   try {
-    const decodedToken = jwt.verify(token, secretTokenKey) as TokenInterface;
-    if (!decodedToken.id) {
-      return res.status(401).send({ message: 'Token not valid. Authorization denied.' });
+    const { id } = jwt.verify(token, secretTokenKey) as TokenInterface;
+    const user = await db.User.findByPk(id);
+    if (!user) {
+      return res.status(401).json({
+        message: 'Token not valid. User not found.'
+      });
     }
-    req.user = decodedToken;
+
+    req.user = { id: user.id, email: user.email, username: user.username };
+    
     next();
   } catch (error) {
     console.log(error);
-    res.status(500).json({
-      message: 'Contact the admin'
+    res.status(401).json({
+      message: 'Token not valid'
     });
   }
 }

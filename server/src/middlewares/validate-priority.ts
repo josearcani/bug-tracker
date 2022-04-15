@@ -8,5 +8,6 @@ export const validatePriority = ( ...priorites: string[] ) => {
         message: `The priority needs to be ${priorites}`
       })
     }
+    next();
   }
 }

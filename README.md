@@ -23,3 +23,10 @@
 - JSON Web Token - A standard to secure/authenticate HTTP requests
 - Bcrypt.js - For hashing passwords
 - Dotenv - To load environment variables from a .env file
+
+
+graph TD;
+  A-->B;
+  A-->C;
+  B-->D;
+  C-->D;
